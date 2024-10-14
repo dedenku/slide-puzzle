@@ -176,7 +176,7 @@ function toggleCSS() {
     var stylesheet = document.getElementById("block-number-css");
     var switchElement = document.getElementById("styleSwitch");
     if (switchElement.checked) {
-        stylesheet.href = "block-number.css";
+        stylesheet.href = "./styles/block-number.css";
     } else {
         stylesheet.href = "";
     }
@@ -187,5 +187,5 @@ window.onload = function () {
     var stylesheet = document.getElementById("block-number-css");
     var switchElement = document.getElementById("styleSwitch");
 
-    switchElement.checked = (stylesheet.href.indexOf("block-number.css") > -1);
+    switchElement.checked = (stylesheet.href.indexOf("./styles/block-number.css") > -1);
 }

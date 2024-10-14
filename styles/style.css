@@ -26,7 +26,7 @@ body {
 #move-counter {
   position: absolute;
   top: 5%;
-  color: var(--mcol2);
+  color: var(--mcol0);
   font-size: 2rem;
   font-weight: bold;
 }
