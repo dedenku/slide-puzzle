@@ -8,15 +8,15 @@
     box-sizing: border-box;
   }
   
-  .button-cover {
+  /* .button-cover {
     height: 10vh;
     margin: 20px;
     background-color: #fff;
     box-shadow: 0 10px 20px -8px #c5d6d6;
     border-radius: 4px;
-  }
+  } */
   
-  .button-cover:before {
+  /* .button-cover:before {
     counter-increment: button-counter;
     content: counter(button-counter);
     position: absolute;
@@ -26,7 +26,7 @@
     font-size: 12px;
     line-height: 1;
     padding: 5px;
-  }
+  } */
   
   .button-cover,
   .knobs,
@@ -99,7 +99,7 @@
   
   #button-1 .checkbox:checked + .knobs:before {
     content: "HIDE BLOCK NUMBER";
-    left: 51px;
+    left: 52px;
     background-color: #f44336;
   }
   

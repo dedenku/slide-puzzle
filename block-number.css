@@ -3,7 +3,7 @@
   --fontsize: 4rem;
 }
 
-.block-1::after {
+#block-1::after {
   position: absolute;
   content: "1";
   color: var(--bgcolor);
@@ -14,7 +14,7 @@
   z-index: 2;
 }
 
-.block-2::after {
+#block-2::after {
   position: absolute;
   content: "2";
   color: var(--bgcolor);
@@ -25,7 +25,7 @@
   z-index: 2;
 }
 
-.block-3::after {
+#block-3::after {
   position: absolute;
   content: "3";
   color: var(--bgcolor);
@@ -36,7 +36,7 @@
   z-index: 2;
 }
 
-.block-4::after {
+#block-4::after {
   position: absolute;
   content: "4";
   color: var(--bgcolor);
@@ -47,7 +47,7 @@
   z-index: 2;
 }
 
-.block-5::after {
+#block-5::after {
   position: absolute;
   content: "5";
   color: var(--bgcolor);
@@ -58,7 +58,7 @@
   z-index: 2;
 }
 
-.block-6::after {
+#block-6::after {
   position: absolute;
   content: "6";
   color: var(--bgcolor);
@@ -69,7 +69,7 @@
   z-index: 2;
 }
 
-.block-7::after {
+#block-7::after {
   position: absolute;
   content: "7";
   color: var(--bgcolor);
@@ -80,7 +80,7 @@
   z-index: 2;
 }
 
-.block-8::after {
+#block-8::after {
   position: absolute;
   content: "8";
   color: var(--bgcolor);

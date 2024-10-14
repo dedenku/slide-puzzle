@@ -27,6 +27,7 @@ body {
   position:fixed;
   color: white;
   top: 0;
+  font-size: 2rem;
 }
 
 #puzzle_container {

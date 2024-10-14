@@ -1,4 +1,5 @@
 const GameDifficulty = [20, 50, 70];
+
 class Game {
     difficulty;//difficulty based on GameDifficulty array
     cols = 3;//how many colomns
@@ -6,13 +7,24 @@ class Game {
     count;//cols*rows
     blocks;//the html elements with className="puzzle_block"
     emptyBlockCoords = [2, 2];//the coordinates of the empty block
-    indexes = [];//keeps track of the order of the blocks
+    indexes = []; //keeps track of the order of the blocks
+    moveCount = 0; //
 
     constructor(difficultyLevel = 1) {
         this.difficulty = GameDifficulty[difficultyLevel - 1];
         this.count = this.cols * this.rows;
         this.blocks = document.getElementsByClassName("puzzle_block");//grab the blocks
         this.init();
+        let moveCounterElement = document.createElement('div');
+        moveCounterElement.id = 'move-counter';
+        moveCounterElement.textContent = 'Moves: 0';
+        document.body.appendChild(moveCounterElement);
+
+        //solve button
+        let solveButton = document.createElement('button');
+        solveButton.textContent = 'Solve Puzzle';
+        solveButton.addEventListener('click', () => this.solvePuzzle());
+        document.body.appendChild(solveButton);
     }
 
     init() {//position each block in its proper position
@@ -68,10 +80,12 @@ class Game {
 
     onClickOnBlock(blockIdx) {//try move block and check if puzzle was solved
         if (this.moveBlock(blockIdx)) {
+            this.incrementMoveCount();
             if (this.checkPuzzleSolved()) {
-                setTimeout(() => alert("Puzzle Solved!!"), 600);
+                setTimeout(() => alert("Puzzle Solved in " + this.moveCount + " moves!"), 600);
             }
         }
+
     }
 
     checkPuzzleSolved() {//return if puzzle was solved
@@ -86,6 +100,17 @@ class Game {
     setDifficulty(difficultyLevel) {//set difficulty
         this.difficulty = GameDifficulty[difficultyLevel - 1];
         this.randomize(this.difficulty);
+        this.moveCount = 0;
+        this.updateMoveCountDisplay();
+    }
+
+    incrementMoveCount() {
+        this.moveCount++;
+        this.updateMoveCountDisplay();
+    }
+
+    updateMoveCountDisplay() {
+        document.getElementById('move-counter').textContent = "Moves: " + this.moveCount;
     }
 
 }
@@ -116,9 +141,9 @@ function toggleCSS() {
 }
 
 // Inisialisasi switch sesuai dengan keberadaan stylesheet tema
-window.onload = function() {
+window.onload = function () {
     var stylesheet = document.getElementById("block-number-css");
     var switchElement = document.getElementById("styleSwitch");
-    
+
     switchElement.checked = (stylesheet.href.indexOf("block-number.css") > -1);
 }
