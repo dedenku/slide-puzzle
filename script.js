@@ -12,6 +12,7 @@ document.querySelectorAll('#image_gallery .thumbnail').forEach(thumb => {
     });
 });
 
+<<<<<<< HEAD
 // class PuzzleState {
 //     constructor(board, emptyPos, g, h, parent) {
 //         this.board = board;
@@ -22,6 +23,18 @@ document.querySelectorAll('#image_gallery .thumbnail').forEach(thumb => {
 //         this.parent = parent;
 //     }
 // }
+=======
+class PuzzleState {
+    constructor(board, emptyPos, g, h, parent) {
+        this.board = board;
+        this.emptyPos = emptyPos;
+        this.g = g;
+        this.h = h;
+        this.f = g + h;
+        this.parent = parent;
+    }
+}
+>>>>>>> new-version
 
 class Game {
     difficulty;//difficulty based on GameDifficulty array
@@ -154,6 +167,7 @@ class Game {
         if (counterElement) {
             counterElement.textContent = `Moves: ${this.moveCount}`;
         }
+<<<<<<< HEAD
     }
 
     // puzzle solver
@@ -294,6 +308,8 @@ class Game {
             }
         }
         alert("Puzzle solved automatically!");
+=======
+>>>>>>> new-version
     }
 
 }
@@ -311,18 +327,21 @@ difficulty_buttons.forEach((elem, idx) => {
     });
 });
 
+<<<<<<< HEAD
 //solver button
 let solveButton = document.createElement('button');
 solveButton.textContent = 'Solve Puzzle';
 solveButton.addEventListener('click', () => game.solvePuzzleAnimated());
 document.body.appendChild(solveButton);
 
+=======
+>>>>>>> new-version
 // show/ hide block number
 function toggleCSS() {
     var stylesheet = document.getElementById("block-number-css");
     var switchElement = document.getElementById("styleSwitch");
     if (switchElement.checked) {
-        stylesheet.href = "block-number.css";
+        stylesheet.href = "./styles/block-number.css";
     } else {
         stylesheet.href = "";
     }
@@ -333,5 +352,5 @@ window.onload = function () {
     var stylesheet = document.getElementById("block-number-css");
     var switchElement = document.getElementById("styleSwitch");
 
-    switchElement.checked = (stylesheet.href.indexOf("block-number.css") > -1);
+    switchElement.checked = (stylesheet.href.indexOf("./styles/block-number.css") > -1);
 }

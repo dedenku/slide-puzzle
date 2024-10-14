@@ -1,0 +1,101 @@
+:root {
+  --bgcolor: rgba(255, 255, 255, 0.5);
+  --fontsize: 4rem;
+  --txt-shadow: 1px 1px 5px rgba(0, 0, 0, .3);
+}
+
+#block-1::after {
+  position: absolute;
+  content: "1";
+  color: var(--bgcolor);
+  font-size: var(--fontsize);
+  text-shadow: var(--txt-shadow);
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 2;
+}
+
+#block-2::after {
+  position: absolute;
+  content: "2";
+  color: var(--bgcolor);
+  font-size: var(--fontsize);
+  text-shadow: var(--txt-shadow);
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 2;
+}
+
+#block-3::after {
+  position: absolute;
+  content: "3";
+  color: var(--bgcolor);
+  font-size: var(--fontsize);
+  text-shadow: var(--txt-shadow);
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 2;
+}
+
+#block-4::after {
+  position: absolute;
+  content: "4";
+  color: var(--bgcolor);
+  font-size: var(--fontsize);
+  text-shadow: var(--txt-shadow);
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 2;
+}
+
+#block-5::after {
+  position: absolute;
+  content: "5";
+  color: var(--bgcolor);
+  font-size: var(--fontsize);
+  text-shadow: var(--txt-shadow);
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 2;
+}
+
+#block-6::after {
+  position: absolute;
+  content: "6";
+  color: var(--bgcolor);
+  font-size: var(--fontsize);
+  text-shadow: var(--txt-shadow);
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 2;
+}
+
+#block-7::after {
+  position: absolute;
+  content: "7";
+  color: var(--bgcolor);
+  font-size: var(--fontsize);
+  text-shadow: var(--txt-shadow);
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 2;
+}
+
+#block-8::after {
+  position: absolute;
+  content: "8";
+  color: var(--bgcolor);
+  font-size: var(--fontsize);
+  text-shadow: var(--txt-shadow);
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 2;
+}
