@@ -1,5 +1,28 @@
 const GameDifficulty = [20, 50, 70];
 
+//image gallery
+document.querySelectorAll('#image_gallery .thumbnail').forEach(thumb => {
+    thumb.addEventListener('click', function() {
+        // Remove active class from all thumbnails
+        document.querySelectorAll('#image_gallery .thumbnail').forEach(t => t.classList.remove('active'));
+        // Add active class to clicked thumbnail
+        this.classList.add('active');
+        // Change the puzzle image
+        game.changeImage(this.dataset.image);
+    });
+});
+
+// class PuzzleState {
+//     constructor(board, emptyPos, g, h, parent) {
+//         this.board = board;
+//         this.emptyPos = emptyPos;
+//         this.g = g;
+//         this.h = h;
+//         this.f = g + h;
+//         this.parent = parent;
+//     }
+// }
+
 class Game {
     difficulty;//difficulty based on GameDifficulty array
     cols = 3;//how many colomns
@@ -17,14 +40,10 @@ class Game {
         this.init();
         let moveCounterElement = document.createElement('div');
         moveCounterElement.id = 'move-counter';
-        moveCounterElement.textContent = 'Moves: 0';
+        moveCounterElement.textContent = 'MOVES: 0';
         document.body.appendChild(moveCounterElement);
 
-        //solve button
-        let solveButton = document.createElement('button');
-        solveButton.textContent = 'Solve Puzzle';
-        solveButton.addEventListener('click', () => this.solvePuzzle());
-        document.body.appendChild(solveButton);
+        this.changeImage('squirrel'); // Set gambar default
     }
 
     init() {//position each block in its proper position
@@ -110,7 +129,171 @@ class Game {
     }
 
     updateMoveCountDisplay() {
-        document.getElementById('move-counter').textContent = "Moves: " + this.moveCount;
+        document.getElementById('move-counter').textContent = "MOVES: " + this.moveCount;
+    }
+
+    //image change
+    changeImage(imagePrefix) {
+        for (let i = 0; i < this.blocks.length; i++) {
+            let img = this.blocks[i].querySelector('img');
+            img.src = `assets/${imagePrefix}-${(i + 1).toString().padStart(2, '0')}.png`;
+        }
+        // Reset move counter
+        this.resetMoveCounter();
+        // Randomize puzzle after changing image
+        this.randomize(this.difficulty);
+    }
+
+    resetMoveCounter() {
+        this.moveCount = 0;
+        this.updateMoveCountDisplay();
+    }
+    
+    updateMoveCountDisplay() {
+        let counterElement = document.getElementById('move-counter');
+        if (counterElement) {
+            counterElement.textContent = `Moves: ${this.moveCount}`;
+        }
+    }
+
+    // puzzle solver
+    solvePuzzle() {
+        const DIRECTIONS = { "U": [-1, 0], "D": [1, 0], "L": [0, -1], "R": [0, 1] };
+        const END = [[1, 2, 3], [4, 5, 6], [7, 8, 0]];
+
+        class Node {
+            constructor(current_node, previous_node, g, h, dir) {
+                this.current_node = current_node;
+                this.previous_node = previous_node;
+                this.g = g;
+                this.h = h;
+                this.dir = dir;
+            }
+
+            f() {
+                return this.g + this.h;
+            }
+        }
+
+        function getPos(current_state, element) {
+            for (let row = 0; row < current_state.length; row++) {
+                let col = current_state[row].indexOf(element);
+                if (col !== -1) {
+                    return [row, col];
+                }
+            }
+        }
+
+        function euclidianCost(current_state) {
+            let cost = 0;
+            for (let row = 0; row < current_state.length; row++) {
+                for (let col = 0; col < current_state[0].length; col++) {
+                    let pos = getPos(END, current_state[row][col]);
+                    cost += Math.abs(row - pos[0]) + Math.abs(col - pos[1]);
+                }
+            }
+            return cost;
+        }
+
+        function getAdjNode(node) {
+            let listNode = [];
+            let emptyPos = getPos(node.current_node, 0);
+
+            for (let dir in DIRECTIONS) {
+                let newPos = [emptyPos[0] + DIRECTIONS[dir][0], emptyPos[1] + DIRECTIONS[dir][1]];
+                if (newPos[0] >= 0 && newPos[0] < node.current_node.length && newPos[1] >= 0 && newPos[1] < node.current_node[0].length) {
+                    let newState = JSON.parse(JSON.stringify(node.current_node));
+                    newState[emptyPos[0]][emptyPos[1]] = node.current_node[newPos[0]][newPos[1]];
+                    newState[newPos[0]][newPos[1]] = 0;
+                    listNode.push(new Node(newState, node.current_node, node.g + 1, euclidianCost(newState), dir));
+                }
+            }
+
+            return listNode;
+        }
+
+        function getBestNode(openSet) {
+            let bestNode;
+            let bestF = Infinity;
+
+            for (let node of Object.values(openSet)) {
+                if (node.f() < bestF) {
+                    bestNode = node;
+                    bestF = node.f();
+                }
+            }
+            return bestNode;
+        }
+
+        function buildPath(closedSet) {
+            let node = closedSet[JSON.stringify(END)];
+            let branch = [];
+
+            while (node.dir) {
+                branch.push({
+                    dir: node.dir,
+                    node: node.current_node
+                });
+                node = closedSet[JSON.stringify(node.previous_node)];
+            }
+            branch.push({
+                dir: '',
+                node: node.current_node
+            });
+            return branch.reverse();
+        }
+
+        function main(puzzle) {
+            let open_set = { [JSON.stringify(puzzle)]: new Node(puzzle, puzzle, 0, euclidianCost(puzzle), "") };
+            let closed_set = {};
+
+            while (true) {
+                let test_node = getBestNode(open_set);
+                closed_set[JSON.stringify(test_node.current_node)] = test_node;
+
+                if (JSON.stringify(test_node.current_node) === JSON.stringify(END)) {
+                    return buildPath(closed_set);
+                }
+
+                let adj_node = getAdjNode(test_node);
+                for (let node of adj_node) {
+                    if (closed_set[JSON.stringify(node.current_node)] ||
+                        (open_set[JSON.stringify(node.current_node)] && open_set[JSON.stringify(node.current_node)].f() < node.f())) {
+                        continue;
+                    }
+                    open_set[JSON.stringify(node.current_node)] = node;
+                }
+
+                delete open_set[JSON.stringify(test_node.current_node)];
+            }
+        }
+
+        // Convert this.indexes to 2D array
+        let currentState = [];
+        for (let i = 0; i < this.rows; i++) {
+            currentState.push(this.indexes.slice(i * this.cols, (i + 1) * this.cols));
+        }
+
+        return main(currentState);
+    }
+
+    async solvePuzzleAnimated() {
+        let solution = this.solvePuzzle();
+        for (let step of solution) {
+            if (step.dir) {
+                let emptyPos = this.emptyBlockCoords;
+                let newPos = [
+                    emptyPos[1] + (step.dir === 'U' ? 1 : step.dir === 'D' ? -1 : 0),
+                    emptyPos[0] + (step.dir === 'L' ? 1 : step.dir === 'R' ? -1 : 0)
+                ];
+                let blockIdx = newPos[1] + newPos[0] * this.cols;
+                await new Promise(resolve => setTimeout(() => {
+                    this.moveBlock(blockIdx);
+                    resolve();
+                }, 300));
+            }
+        }
+        alert("Puzzle solved automatically!");
     }
 
 }
@@ -128,6 +311,11 @@ difficulty_buttons.forEach((elem, idx) => {
     });
 });
 
+//solver button
+let solveButton = document.createElement('button');
+solveButton.textContent = 'Solve Puzzle';
+solveButton.addEventListener('click', () => game.solvePuzzleAnimated());
+document.body.appendChild(solveButton);
 
 // show/ hide block number
 function toggleCSS() {
