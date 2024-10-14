@@ -12,18 +12,6 @@ document.querySelectorAll('#image_gallery .thumbnail').forEach(thumb => {
     });
 });
 
-<<<<<<< HEAD
-// class PuzzleState {
-//     constructor(board, emptyPos, g, h, parent) {
-//         this.board = board;
-//         this.emptyPos = emptyPos;
-//         this.g = g;
-//         this.h = h;
-//         this.f = g + h;
-//         this.parent = parent;
-//     }
-// }
-=======
 class PuzzleState {
     constructor(board, emptyPos, g, h, parent) {
         this.board = board;
@@ -34,7 +22,6 @@ class PuzzleState {
         this.parent = parent;
     }
 }
->>>>>>> new-version
 
 class Game {
     difficulty;//difficulty based on GameDifficulty array
@@ -167,149 +154,6 @@ class Game {
         if (counterElement) {
             counterElement.textContent = `Moves: ${this.moveCount}`;
         }
-<<<<<<< HEAD
-    }
-
-    // puzzle solver
-    solvePuzzle() {
-        const DIRECTIONS = { "U": [-1, 0], "D": [1, 0], "L": [0, -1], "R": [0, 1] };
-        const END = [[1, 2, 3], [4, 5, 6], [7, 8, 0]];
-
-        class Node {
-            constructor(current_node, previous_node, g, h, dir) {
-                this.current_node = current_node;
-                this.previous_node = previous_node;
-                this.g = g;
-                this.h = h;
-                this.dir = dir;
-            }
-
-            f() {
-                return this.g + this.h;
-            }
-        }
-
-        function getPos(current_state, element) {
-            for (let row = 0; row < current_state.length; row++) {
-                let col = current_state[row].indexOf(element);
-                if (col !== -1) {
-                    return [row, col];
-                }
-            }
-        }
-
-        function euclidianCost(current_state) {
-            let cost = 0;
-            for (let row = 0; row < current_state.length; row++) {
-                for (let col = 0; col < current_state[0].length; col++) {
-                    let pos = getPos(END, current_state[row][col]);
-                    cost += Math.abs(row - pos[0]) + Math.abs(col - pos[1]);
-                }
-            }
-            return cost;
-        }
-
-        function getAdjNode(node) {
-            let listNode = [];
-            let emptyPos = getPos(node.current_node, 0);
-
-            for (let dir in DIRECTIONS) {
-                let newPos = [emptyPos[0] + DIRECTIONS[dir][0], emptyPos[1] + DIRECTIONS[dir][1]];
-                if (newPos[0] >= 0 && newPos[0] < node.current_node.length && newPos[1] >= 0 && newPos[1] < node.current_node[0].length) {
-                    let newState = JSON.parse(JSON.stringify(node.current_node));
-                    newState[emptyPos[0]][emptyPos[1]] = node.current_node[newPos[0]][newPos[1]];
-                    newState[newPos[0]][newPos[1]] = 0;
-                    listNode.push(new Node(newState, node.current_node, node.g + 1, euclidianCost(newState), dir));
-                }
-            }
-
-            return listNode;
-        }
-
-        function getBestNode(openSet) {
-            let bestNode;
-            let bestF = Infinity;
-
-            for (let node of Object.values(openSet)) {
-                if (node.f() < bestF) {
-                    bestNode = node;
-                    bestF = node.f();
-                }
-            }
-            return bestNode;
-        }
-
-        function buildPath(closedSet) {
-            let node = closedSet[JSON.stringify(END)];
-            let branch = [];
-
-            while (node.dir) {
-                branch.push({
-                    dir: node.dir,
-                    node: node.current_node
-                });
-                node = closedSet[JSON.stringify(node.previous_node)];
-            }
-            branch.push({
-                dir: '',
-                node: node.current_node
-            });
-            return branch.reverse();
-        }
-
-        function main(puzzle) {
-            let open_set = { [JSON.stringify(puzzle)]: new Node(puzzle, puzzle, 0, euclidianCost(puzzle), "") };
-            let closed_set = {};
-
-            while (true) {
-                let test_node = getBestNode(open_set);
-                closed_set[JSON.stringify(test_node.current_node)] = test_node;
-
-                if (JSON.stringify(test_node.current_node) === JSON.stringify(END)) {
-                    return buildPath(closed_set);
-                }
-
-                let adj_node = getAdjNode(test_node);
-                for (let node of adj_node) {
-                    if (closed_set[JSON.stringify(node.current_node)] ||
-                        (open_set[JSON.stringify(node.current_node)] && open_set[JSON.stringify(node.current_node)].f() < node.f())) {
-                        continue;
-                    }
-                    open_set[JSON.stringify(node.current_node)] = node;
-                }
-
-                delete open_set[JSON.stringify(test_node.current_node)];
-            }
-        }
-
-        // Convert this.indexes to 2D array
-        let currentState = [];
-        for (let i = 0; i < this.rows; i++) {
-            currentState.push(this.indexes.slice(i * this.cols, (i + 1) * this.cols));
-        }
-
-        return main(currentState);
-    }
-
-    async solvePuzzleAnimated() {
-        let solution = this.solvePuzzle();
-        for (let step of solution) {
-            if (step.dir) {
-                let emptyPos = this.emptyBlockCoords;
-                let newPos = [
-                    emptyPos[1] + (step.dir === 'U' ? 1 : step.dir === 'D' ? -1 : 0),
-                    emptyPos[0] + (step.dir === 'L' ? 1 : step.dir === 'R' ? -1 : 0)
-                ];
-                let blockIdx = newPos[1] + newPos[0] * this.cols;
-                await new Promise(resolve => setTimeout(() => {
-                    this.moveBlock(blockIdx);
-                    resolve();
-                }, 300));
-            }
-        }
-        alert("Puzzle solved automatically!");
-=======
->>>>>>> new-version
     }
 
 }
@@ -327,15 +171,6 @@ difficulty_buttons.forEach((elem, idx) => {
     });
 });
 
-<<<<<<< HEAD
-//solver button
-let solveButton = document.createElement('button');
-solveButton.textContent = 'Solve Puzzle';
-solveButton.addEventListener('click', () => game.solvePuzzleAnimated());
-document.body.appendChild(solveButton);
-
-=======
->>>>>>> new-version
 // show/ hide block number
 function toggleCSS() {
     var stylesheet = document.getElementById("block-number-css");
