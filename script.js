@@ -1,5 +1,28 @@
 const GameDifficulty = [20, 50, 70];
 
+//image gallery
+document.querySelectorAll('#image_gallery .thumbnail').forEach(thumb => {
+    thumb.addEventListener('click', function() {
+        // Remove active class from all thumbnails
+        document.querySelectorAll('#image_gallery .thumbnail').forEach(t => t.classList.remove('active'));
+        // Add active class to clicked thumbnail
+        this.classList.add('active');
+        // Change the puzzle image
+        game.changeImage(this.dataset.image);
+    });
+});
+
+class PuzzleState {
+    constructor(board, emptyPos, g, h, parent) {
+        this.board = board;
+        this.emptyPos = emptyPos;
+        this.g = g;
+        this.h = h;
+        this.f = g + h;
+        this.parent = parent;
+    }
+}
+
 class Game {
     difficulty;//difficulty based on GameDifficulty array
     cols = 3;//how many colomns
@@ -17,14 +40,10 @@ class Game {
         this.init();
         let moveCounterElement = document.createElement('div');
         moveCounterElement.id = 'move-counter';
-        moveCounterElement.textContent = 'Moves: 0';
+        moveCounterElement.textContent = 'MOVES: 0';
         document.body.appendChild(moveCounterElement);
 
-        //solve button
-        let solveButton = document.createElement('button');
-        solveButton.textContent = 'Solve Puzzle';
-        solveButton.addEventListener('click', () => this.solvePuzzle());
-        document.body.appendChild(solveButton);
+        this.changeImage('squirrel'); // Set gambar default
     }
 
     init() {//position each block in its proper position
@@ -110,7 +129,31 @@ class Game {
     }
 
     updateMoveCountDisplay() {
-        document.getElementById('move-counter').textContent = "Moves: " + this.moveCount;
+        document.getElementById('move-counter').textContent = "MOVES: " + this.moveCount;
+    }
+
+    //image change
+    changeImage(imagePrefix) {
+        for (let i = 0; i < this.blocks.length; i++) {
+            let img = this.blocks[i].querySelector('img');
+            img.src = `assets/${imagePrefix}-${(i + 1).toString().padStart(2, '0')}.png`;
+        }
+        // Reset move counter
+        this.resetMoveCounter();
+        // Randomize puzzle after changing image
+        this.randomize(this.difficulty);
+    }
+
+    resetMoveCounter() {
+        this.moveCount = 0;
+        this.updateMoveCountDisplay();
+    }
+    
+    updateMoveCountDisplay() {
+        let counterElement = document.getElementById('move-counter');
+        if (counterElement) {
+            counterElement.textContent = `Moves: ${this.moveCount}`;
+        }
     }
 
 }
@@ -127,7 +170,6 @@ difficulty_buttons.forEach((elem, idx) => {
         game.setDifficulty(idx + 1);
     });
 });
-
 
 // show/ hide block number
 function toggleCSS() {

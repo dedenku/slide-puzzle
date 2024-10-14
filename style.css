@@ -24,10 +24,11 @@ body {
   background-color: var(--bgcol);
 }
 #move-counter {
-  position:fixed;
-  color: white;
-  top: 0;
+  position: absolute;
+  top: 5%;
+  color: var(--mcol2);
   font-size: 2rem;
+  font-weight: bold;
 }
 
 #puzzle_container {
@@ -92,4 +93,34 @@ body {
 .puzzle_block img {
     height: 100%;
     width: 100%;
+}
+
+/* image gallery */
+#image_gallery {
+  display: flex;
+  justify-content: center;
+  /* margin-top: 10px; */
+}
+
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  margin: 0 10px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.thumbnail.active {
+  border-color: #007bff;
+  filter: brightness(0.15);
+}
+
+.thumbnail:hover {
+  border-color: #0056b3;
+  /* transform: scale(1.5); */
+}
+
+.thumbnail.active:hover {
+  filter: brightness(0.5);
 }
