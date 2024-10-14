@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLIDE PUZZLE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="switch-btn.css">
+    <link id="block-number-css" rel="stylesheet" type="text/css" href="">
+</head>
+
+<body>
+    <div id="move-counter">
+        <h1>Moves: 0</h1>
+    </div>
+
+    <div id="puzzle_container">
+        <div class="puzzle_block block-1"><img src="assets/squirrel-01.png" alt=""></div>
+        <div class="puzzle_block block-2"><img src="assets/squirrel02.png" alt=""></div>
+        <div class="puzzle_block block-3"><img src="assets/squirrel03.png" alt=""></div>
+        <div class="puzzle_block block-4"><img src="assets/squirrel04.png" alt=""></div>
+        <div class="puzzle_block block-5"><img src="assets/squirrel05.png" alt=""></div>
+        <div class="puzzle_block block-6"><img src="assets/squirrel06.png" alt=""></div>
+        <div class="puzzle_block block-7"><img src="assets/squirrel07.png" alt=""></div>
+        <div class="puzzle_block block-8"><img src="assets/squirrel08.png" alt=""></div>
+
+    </div>
+    <div id="difficulty_container">
+        <div class="difficulty_button active">EASY</div>
+        <div class="difficulty_button">MEDIUM</div>
+        <div class="difficulty_button">HARD</div>
+    </div>
+
+    <div class="block-number-switch">
+        <!-- Button switch -->
+        <div class="toggle-button-cover">
+            <div class="button-cover">
+                <div class="button r" id="button-1">
+                    <input type="checkbox" class="checkbox" id="styleSwitch" onchange="toggleCSS()"/>
+                    <div class="knobs"></div>
+                    <div class="layer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
